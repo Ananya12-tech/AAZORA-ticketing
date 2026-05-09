@@ -6,12 +6,12 @@ const PRIORITIES = ["Low", "Medium", "High", "Urgent"];
 const STATUSES = ["Open", "In Progress", "Closed"];
 
 const ALLOWED_USERS = [
-  { email: "research1@aazora.com", name: "Alex R.", team: "Research", avatar: "AR" },
-  { email: "research2@aazora.com", name: "Priya S.", team: "Research", avatar: "PS" },
-  { email: "dev1@aazora.com", name: "Jordan K.", team: "Development", avatar: "JK" },
-  { email: "dev2@aazora.com", name: "Rahul M.", team: "Development", avatar: "RM" },
-  { email: "qa1@aazora.com", name: "Sofia L.", team: "QA", avatar: "SL" },
-  { email: "qa2@aazora.com", name: "Chris T.", team: "QA", avatar: "CT" },
+  { email: "srinithib2505@gmail.com", name: "Srinithi B.", team: "Research", avatar: "SB" },
+  { email: "ananya012640@gmail.com", name: "Ananya", team: "Research", avatar: "AN" },
+  { email: "skeerthana805088@gmail.com", name: "Keerthana S.", team: "Development", avatar: "KS" },
+  { email: "roshini.srinivasarajagopalan@gmail.com", name: "Roshini S.", team: "Development", avatar: "RS" },
+  { email: "gopikameena881@gmail.com", name: "Gopika M.", team: "QA", avatar: "GM" },
+  { email: "praveenbruce04@gmail.com", name: "Praveen B.", team: "QA", avatar: "PB" },
 ];
 
 const TYPE_META = {
