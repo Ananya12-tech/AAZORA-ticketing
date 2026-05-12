@@ -8,35 +8,35 @@ const STATUSES = ["Open", "In Progress", "Blocked", "Closed"];
 const TICKET_TAGS = ["Frontend", "Backend", "Design", "Blocked", "Client", "Urgent Review"];
 const PRIORITY_RANK = { Low: 1, Medium: 2, High: 3, Urgent: 4 };
 
-const TEAM_ACCENT = { Research: "#938dd5", Development: "#1bd197", QA: "#BA7517" };
+const TEAM_ACCENT = { Research: "#8B8CF6", Development: "#2DD4BF", QA: "#F59E0B" };
 const TYPE_META = {
-  "Research Task": { icon: "R", bg: "#2B2548", text: "#B7A7FF" },
-  "Feature Development": { icon: "F", bg: "#18382E", text: "#6EE7B7" },
-  "Bug Fix": { icon: "B", bg: "#773a45", text: "#dd8484" },
-  "Client Deliverable": { icon: "C", bg: "#9a794e", text: "#e6c79c" },
+  "Research Task": { icon: "R", bg: "#29264A", text: "#C4B5FD" },
+  "Feature Development": { icon: "F", bg: "#123B34", text: "#5EEAD4" },
+  "Bug Fix": { icon: "B", bg: "#4A1F2A", text: "#FDA4AF" },
+  "Client Deliverable": { icon: "C", bg: "#43371F", text: "#FCD34D" },
 };
 const PRIORITY_META = {
-  Low: { bg: "#18382E", text: "#6EE7B7" },
-  Medium: { bg: "#3B2E1D", text: "#F6C177" },
-  High: { bg: "#3D2320", text: "#FF8A65" },
-  Urgent: { bg: "#3A1B22", text: "#FF5D73" },
+  Low: { bg: "#123B34", text: "#5EEAD4" },
+  Medium: { bg: "#3F321D", text: "#FBBF24" },
+  High: { bg: "#43251D", text: "#FB923C" },
+  Urgent: { bg: "#4A1F2A", text: "#FB7185" },
 };
 const STATUS_META = {
-  Open: { bg: "#1D2A44", text: "#7AB8FF" },
-  "In Progress": { bg: "#3B2E1D", text: "#F6C177" },
-  Blocked: { bg: "#3A1B22", text: "#FF5D73" },
-  Closed: { bg: "#18382E", text: "#6EE7B7" },
+  Open: { bg: "#172A46", text: "#60A5FA" },
+  "In Progress": { bg: "#3F321D", text: "#FBBF24" },
+  Blocked: { bg: "#4A1F2A", text: "#FB7185" },
+  Closed: { bg: "#123B34", text: "#5EEAD4" },
 };
 
 const D = {
-  root: { fontFamily: "Inter, var(--font-sans), sans-serif", background: "#0B0B0F", minHeight: "100vh", color: "#E8EAF0" },
-  card: { background: "#111318", border: "0.5px solid #2A2D38", borderRadius: 8 },
-  input: { width: "100%", boxSizing: "border-box", background: "#1C1F2A", border: "0.5px solid #2A2D38", color: "#E8EAF0", borderRadius: 8, padding: "9px 12px", fontSize: 13, outline: "none", fontFamily: "inherit" },
-  label: { fontSize: 11, color: "#6B7280", marginBottom: 5, display: "block" },
-  btnP: { background: "#7F77DD", color: "#fff", border: "none", borderRadius: 8, padding: "9px 18px", fontSize: 13, fontWeight: 500, cursor: "pointer" },
-  btnG: { background: "transparent", color: "#9CA3AF", border: "0.5px solid #2A2D38", borderRadius: 8, padding: "8px 14px", fontSize: 13, cursor: "pointer" },
-  btnDanger: { background: "transparent", color: "#FF5D73", border: "0.5px solid #FF5D73", borderRadius: 8, padding: "8px 14px", fontSize: 13, cursor: "pointer" },
-  sHead: { fontSize: 10, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6B7280", marginBottom: 10 },
+  root: { fontFamily: "Inter, var(--font-sans), sans-serif", background: "linear-gradient(180deg, #0A0D14 0%, #0E111A 46%, #090B10 100%)", minHeight: "100vh", color: "#E8EAF0" },
+  card: { background: "rgba(17, 20, 30, 0.92)", border: "1px solid #252B3A", borderRadius: 8, boxShadow: "0 18px 55px rgba(0,0,0,0.26)" },
+  input: { width: "100%", boxSizing: "border-box", background: "#151A25", border: "1px solid #2B3244", color: "#F8FAFC", borderRadius: 8, padding: "10px 12px", fontSize: 13, outline: "none", fontFamily: "inherit", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.03)" },
+  label: { fontSize: 11, color: "#8B95A7", marginBottom: 6, display: "block", fontWeight: 600 },
+  btnP: { background: "linear-gradient(135deg, #14B8A6 0%, #6366F1 100%)", color: "#fff", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 8, padding: "9px 18px", fontSize: 13, fontWeight: 700, cursor: "pointer", boxShadow: "0 10px 24px rgba(20,184,166,0.18)" },
+  btnG: { background: "#141926", color: "#CBD5E1", border: "1px solid #2B3244", borderRadius: 8, padding: "8px 14px", fontSize: 13, cursor: "pointer", fontWeight: 600 },
+  btnDanger: { background: "#20131A", color: "#FB7185", border: "1px solid #7F1D1D", borderRadius: 8, padding: "8px 14px", fontSize: 13, cursor: "pointer", fontWeight: 700 },
+  sHead: { fontSize: 10, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#8B95A7", marginBottom: 10 },
 };
 
 const iDark = { ...D.input };
@@ -113,7 +113,7 @@ function DateInput({ value, onChange, style }) {
           right: 6,
           top: "50%",
           transform: "translateY(-50%)",
-          background: "#7F77DD",
+          background: "linear-gradient(135deg, #14B8A6 0%, #6366F1 100%)",
           color: "#FFFFFF",
           border: "none",
           borderRadius: 6,
@@ -151,10 +151,13 @@ function Login({ onLogin }) {
 
   return (
     <div style={{ ...D.root, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
-      <div style={{ ...D.card, width: 400, padding: "2.5rem 2rem" }}>
+      <div style={{ ...D.card, width: 400, padding: "2.5rem 2rem", borderTop: "3px solid #14B8A6" }}>
         <div style={{ marginBottom: "2rem" }}>
-          <div style={{ fontWeight: 700, fontSize: 22, color: "#E8EAF0" }}>AAZORA</div>
-          <div style={{ fontSize: 13, color: "#6B7280", marginTop: 2 }}>Internal Ticketing System</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+            <div style={{ width: 36, height: 36, borderRadius: 8, background: "linear-gradient(135deg, #14B8A6 0%, #6366F1 100%)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, color: "#FFFFFF" }}>A</div>
+            <div style={{ fontWeight: 800, fontSize: 24, color: "#F8FAFC" }}>AAZORA</div>
+          </div>
+          <div style={{ fontSize: 13, color: "#8B95A7", marginTop: 2 }}>Internal Ticketing System</div>
         </div>
         <label style={D.label}>Work email</label>
         <input style={{ ...D.input, marginBottom: 12 }} placeholder="you@gmail.com" value={email} onChange={e => { setEmail(e.target.value); setErr(""); }} onKeyDown={e => e.key === "Enter" && go()} />
@@ -320,7 +323,7 @@ function BoardCard({ ticket, users, onOpen, onDragStart }) {
   const db = dueBadge(ticket.dueDate);
   const assignee = users.find(u => u.email === ticket.assignedTo);
   return (
-    <div draggable onDragStart={() => onDragStart(ticket)} onClick={() => onOpen(ticket)} style={{ background: "#1C1F2A", border: "0.5px solid #2A2D38", borderRadius: 8, padding: "10px 12px", marginBottom: 8, cursor: "grab", userSelect: "none" }}>
+    <div draggable onDragStart={() => onDragStart(ticket)} onClick={() => onOpen(ticket)} style={{ background: "linear-gradient(180deg, #1A2030 0%, #151A25 100%)", border: "1px solid #2B3244", borderLeft: `3px solid ${PRIORITY_META[ticket.priority]?.text || "#8B95A7"}`, borderRadius: 8, padding: "11px 12px", marginBottom: 9, cursor: "grab", userSelect: "none", boxShadow: "0 10px 24px rgba(0,0,0,0.18)" }}>
       <div style={{ display: "flex", alignItems: "flex-start", gap: 8, marginBottom: 7 }}>
         <div style={{ width: 28, height: 28, borderRadius: 7, background: TYPE_META[ticket.type]?.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, flexShrink: 0 }}>
           {TYPE_META[ticket.type]?.icon}
@@ -596,8 +599,8 @@ export default function App() {
             top: 74,
             zIndex: 2000,
             width: 320,
-            background: "#1C1F2A",
-            border: "1px solid #7F77DD",
+            background: "linear-gradient(180deg, #1A2030 0%, #151A25 100%)",
+            border: "1px solid #14B8A6",
             borderRadius: 8,
             boxShadow: "0 16px 44px rgba(0,0,0,0.45)",
             padding: "12px 14px",
@@ -605,7 +608,7 @@ export default function App() {
         >
           <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
             <div>
-              <div style={{ fontSize: 11, color: "#B7A7FF", fontWeight: 600, marginBottom: 4 }}>Notification</div>
+              <div style={{ fontSize: 11, color: "#5EEAD4", fontWeight: 800, marginBottom: 4 }}>Notification</div>
               <div style={{ fontSize: 13, color: "#E8EAF0", lineHeight: 1.4 }}>{toast.text}</div>
             </div>
             <button
@@ -618,10 +621,11 @@ export default function App() {
         </div>
       )}
 
-      <div style={{ background: "#0F1117", borderBottom: "0.5px solid #2A2D38", padding: "0 1.5rem", minHeight: 56, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, position: "sticky", top: 0, zIndex: 100, flexWrap: "wrap" }}>
+      <div style={{ background: "rgba(10, 13, 20, 0.94)", borderBottom: "1px solid #252B3A", padding: "0.65rem 1.5rem", minHeight: 62, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, position: "sticky", top: 0, zIndex: 100, flexWrap: "wrap", backdropFilter: "blur(14px)", boxShadow: "0 14px 40px rgba(0,0,0,0.26)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontWeight: 700, fontSize: 16, color: "#E8EAF0" }}>AAZORA</span>
-          <span style={{ fontSize: 12, color: "#6B7280", borderLeft: "0.5px solid #2A2D38", paddingLeft: 10 }}>Ticketing</span>
+          <span style={{ width: 32, height: 32, borderRadius: 8, background: "linear-gradient(135deg, #14B8A6 0%, #6366F1 100%)", display: "flex", alignItems: "center", justifyContent: "center", color: "#FFFFFF", fontWeight: 900, boxShadow: "0 8px 22px rgba(20,184,166,0.18)" }}>A</span>
+          <span style={{ fontWeight: 900, fontSize: 17, color: "#F8FAFC" }}>AAZORA</span>
+          <span style={{ fontSize: 12, color: "#8B95A7", borderLeft: "1px solid #2B3244", paddingLeft: 10 }}>Ticketing</span>
         </div>
         <div style={{ display: "flex", gap: 4 }}>
           {["board", "tickets"].map(t => <button key={t} onClick={() => setTab(t)} style={{ background: tab === t ? "#1C1F2A" : "transparent", border: "none", borderRadius: 8, padding: "6px 14px", fontSize: 13, cursor: "pointer", color: tab === t ? "#E8EAF0" : "#6B7280", fontWeight: tab === t ? 500 : 400 }}>{t.charAt(0).toUpperCase() + t.slice(1)}</button>)}
@@ -630,8 +634,8 @@ export default function App() {
           <button onClick={() => setShowForm(s => !s)} style={D.btnP}>+ New ticket</button>
           {user.isAdmin && <button onClick={() => setShowAdmin(true)} style={{ ...D.btnG, fontSize: 12 }}>Admin</button>}
           <div style={{ position: "relative" }} ref={notifRef}>
-            <button onClick={() => setShowNotif(s => !s)} style={{ ...D.btnG, fontSize: 16, padding: "6px 10px", position: "relative" }}>
-              Bell
+            <button onClick={() => setShowNotif(s => !s)} style={{ ...D.btnG, fontSize: 12, padding: "7px 10px", position: "relative" }}>
+              Notify
               {unread > 0 && <span style={{ position: "absolute", top: 2, right: 2, width: 8, height: 8, borderRadius: "50%", background: "#FF5D73" }} />}
             </button>
             {showNotif && <NotifCenter notifs={notifs} onMarkRead={markAllRead} onClear={clearAll} onClose={() => setShowNotif(false)} />}
@@ -640,7 +644,7 @@ export default function App() {
             <Avatar initials={user.avatar} size={24} team={user.team} />
             <div><div style={{ fontSize: 12, fontWeight: 500, lineHeight: 1.2 }}>{user.name}</div><div style={{ fontSize: 10, color: "#6B7280" }}>{user.team}</div></div>
           </div>
-          <button onClick={() => setShowCPass(s => !s)} style={{ ...D.btnG, fontSize: 13, padding: "6px 10px" }}>Key</button>
+          <button onClick={() => setShowCPass(s => !s)} style={{ ...D.btnG, fontSize: 12, padding: "7px 10px" }}>Password</button>
           <button onClick={() => { setUser(null); setSelected(null); }} style={{ ...D.btnG, fontSize: 12 }}>Sign out</button>
         </div>
       </div>
@@ -698,7 +702,7 @@ export default function App() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", gap: 10, marginBottom: "1.5rem" }}>
           {[
             ["Total", stats.total, "#E8EAF0"], ["Open", stats.open, "#7AB8FF"], ["In Progress", stats.inProgress, "#F6C177"], ["Blocked", stats.blocked, "#FF5D73"], ["Closed", stats.closed, "#6EE7B7"], ["Overdue", stats.overdue, "#FF5D73"], ["My open", stats.mine, "#B7A7FF"], ["Archived", stats.archived, "#9CA3AF"],
-          ].map(([label, val, color]) => <div key={label} style={{ ...D.card, padding: "1rem" }}><div style={{ fontSize: 10, color: "#6B7280", textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 6 }}>{label}</div><div style={{ fontSize: 26, fontWeight: 600, color }}>{val}</div></div>)}
+          ].map(([label, val, color]) => <div key={label} style={{ ...D.card, padding: "1rem", borderTop: `3px solid ${color}` }}><div style={{ fontSize: 10, color: "#8B95A7", textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 7, fontWeight: 800 }}>{label}</div><div style={{ fontSize: 28, fontWeight: 800, color }}>{val}</div></div>)}
         </div>
 
         <div style={{ ...D.card, padding: "1rem", marginBottom: "1.5rem" }}>
@@ -722,10 +726,10 @@ export default function App() {
               const col = activeTickets.filter(t => t.status === status);
               const isOver = dragOver === status;
               return (
-                <div key={status} onDragOver={e => { e.preventDefault(); setDragOver(status); }} onDragLeave={() => setDragOver(null)} onDrop={e => onDrop(e, status)} style={{ ...D.card, overflow: "hidden", outline: isOver ? "1.5px dashed #7F77DD" : "none" }}>
-                  <div style={{ padding: "12px 14px", borderBottom: "0.5px solid #2A2D38", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div key={status} onDragOver={e => { e.preventDefault(); setDragOver(status); }} onDragLeave={() => setDragOver(null)} onDrop={e => onDrop(e, status)} style={{ ...D.card, overflow: "hidden", outline: isOver ? "1.5px dashed #14B8A6" : "none", borderTop: `3px solid ${STATUS_META[status].text}` }}>
+                  <div style={{ padding: "12px 14px", borderBottom: "1px solid #252B3A", background: "#121722", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}><div style={{ width: 8, height: 8, borderRadius: "50%", background: STATUS_META[status].text }} /><span style={{ fontSize: 13, fontWeight: 500 }}>{status}</span></div>
-                    <span style={{ fontSize: 12, color: "#6B7280", background: "#1C1F2A", padding: "1px 8px", borderRadius: 999 }}>{col.length}</span>
+                    <span style={{ fontSize: 12, color: "#CBD5E1", background: "#1A2030", padding: "2px 9px", borderRadius: 999, border: "1px solid #2B3244" }}>{col.length}</span>
                   </div>
                   <div style={{ padding: 10, minHeight: 80 }}>{loading ? <div style={{ fontSize: 12, color: "#4B5060", textAlign: "center", padding: "16px 0" }}>Loading...</div> : col.length === 0 ? <div style={{ fontSize: 12, color: "#4B5060", textAlign: "center", padding: "16px 0" }}>{isOver ? "Drop here" : "No tickets"}</div> : col.map(t => <BoardCard key={t.id} ticket={t} users={users} onOpen={tk => { setSelected(tk); setTab("tickets"); }} onDragStart={setDragTicket} />)}</div>
                 </div>
@@ -754,7 +758,7 @@ export default function App() {
                   const db = dueBadge(t.dueDate);
                   const assignee = users.find(u => u.email === t.assignedTo);
                   return (
-                    <div key={t.id} onClick={() => setSelected(t)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "11px 14px", borderBottom: "0.5px solid #2A2D38", cursor: "pointer", background: selected?.id === t.id ? "#1C1F2A" : "transparent" }}>
+                    <div key={t.id} onClick={() => setSelected(t)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 14px", borderBottom: "1px solid #252B3A", cursor: "pointer", background: selected?.id === t.id ? "#1A2030" : "transparent", borderLeft: selected?.id === t.id ? "3px solid #14B8A6" : "3px solid transparent" }}>
                       <div style={{ width: 30, height: 30, borderRadius: 8, background: TYPE_META[t.type]?.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, flexShrink: 0 }}>{TYPE_META[t.type]?.icon}</div>
                       <div style={{ flex: 1, minWidth: 0 }}><div style={{ fontSize: 13, fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.title}</div><div style={{ display: "flex", gap: 5, marginTop: 3, alignItems: "center", flexWrap: "wrap" }}><span style={{ fontSize: 11, color: "#6B7280" }}>{t.assignedTeam}</span>{assignee && <span style={{ fontSize: 11, color: TEAM_ACCENT[assignee.team] }}>- {assignee.name}</span>}{db && <span style={{ fontSize: 11, color: db.text }}>- {db.label}</span>}{(t.tags || []).slice(0, 2).map(tag => <span key={tag} style={{ fontSize: 11, color: "#A8B3CF" }}>- {tag}</span>)}</div></div>
                       <Pill label={t.status} meta={STATUS_META[t.status]} />
@@ -765,7 +769,7 @@ export default function App() {
             </div>
 
             {selected && (
-              <div style={{ ...D.card, padding: "1.5rem", overflowY: "auto", maxHeight: "85vh" }}>
+              <div style={{ ...D.card, padding: "1.5rem", overflowY: "auto", maxHeight: "85vh", borderTop: "3px solid #14B8A6" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
                   <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
                     <div style={{ width: 40, height: 40, borderRadius: 8, background: TYPE_META[selected.type]?.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, fontWeight: 700, flexShrink: 0 }}>{TYPE_META[selected.type]?.icon}</div>
@@ -774,7 +778,7 @@ export default function App() {
                   <div style={{ display: "flex", gap: 8, alignItems: "center" }}>{user.isAdmin && (selected.archived ? <button onClick={() => handleRestoreTicket(selected.id)} style={{ ...D.btnG, fontSize: 11, padding: "5px 10px" }}>Restore</button> : <button onClick={() => handleArchiveTicket(selected.id)} style={{ ...D.btnDanger, fontSize: 11, padding: "5px 10px" }}>Archive</button>)}<button onClick={() => setSelected(null)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, color: "#6B7280" }}>x</button></div>
                 </div>
 
-                <div style={{ background: "#1C1F2A", borderRadius: 8, padding: "12px 14px", marginBottom: 14 }}>
+                <div style={{ background: "#151A25", border: "1px solid #2B3244", borderRadius: 8, padding: "12px 14px", marginBottom: 14 }}>
                   <div style={{ fontSize: 10, color: "#6B7280", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.07em" }}>Update status</div>
                   <div style={{ display: "flex", gap: 8 }}>{STATUSES.map(s => <button key={s} onClick={() => handleStatusChange(selected.id, s)} style={{ flex: 1, padding: "7px 4px", fontSize: 12, fontWeight: 500, borderRadius: 8, cursor: "pointer", border: selected.status === s ? `1.5px solid ${STATUS_META[s].text}` : "0.5px solid #2A2D38", background: selected.status === s ? STATUS_META[s].text : "#111318", color: selected.status === s ? "#FFFFFF" : "#6B7280" }}>{s}</button>)}</div>
                 </div>
