@@ -281,7 +281,7 @@ export function useNotifications(email) {
             if (document.visibilityState === "visible") {
                 fetchNotifs();
             }
-        }, 5000);
+        }, 15000);
 
         function syncWhenVisible() {
             if (document.visibilityState === "visible") {
@@ -517,8 +517,9 @@ export function useTickets() {
     const [tickets, setTickets] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const fetchTickets = useCallback(async () => {
-        setLoading(true);
+    const fetchTickets = useCallback(async (options = {}) => {
+        const silent = Boolean(options.silent);
+        if (!silent) setLoading(true);
 
         const [
             { data: ticketRows, error: tErr },
@@ -534,7 +535,7 @@ export function useTickets() {
 
         if (tErr) {
             console.error("fetch tickets:", tErr);
-            setLoading(false);
+            if (!silent) setLoading(false);
             return;
         }
         if (cErr) console.error("fetch comments:", cErr);
@@ -569,39 +570,39 @@ export function useTickets() {
         });
 
         setTickets(rebuilt);
-        setLoading(false);
+        if (!silent) setLoading(false);
     }, []);
 
     useEffect(() => {
         fetchTickets();
         const channel = supabase
             .channel("tickets-live")
-            .on("postgres_changes", { event: "*", schema: "public", table: "tickets" }, fetchTickets)
-            .on("postgres_changes", { event: "*", schema: "public", table: "comments" }, fetchTickets)
-            .on("postgres_changes", { event: "*", schema: "public", table: "activity" }, fetchTickets)
-            .on("postgres_changes", { event: "*", schema: "public", table: "ticket_attachments" }, fetchTickets)
+            .on("postgres_changes", { event: "*", schema: "public", table: "tickets" }, () => fetchTickets({ silent: true }))
+            .on("postgres_changes", { event: "*", schema: "public", table: "comments" }, () => fetchTickets({ silent: true }))
+            .on("postgres_changes", { event: "*", schema: "public", table: "activity" }, () => fetchTickets({ silent: true }))
+            .on("postgres_changes", { event: "*", schema: "public", table: "ticket_attachments" }, () => fetchTickets({ silent: true }))
             .subscribe(status => console.log("[tickets channel]", status));
 
         const syncInterval = window.setInterval(() => {
             if (document.visibilityState === "visible") {
-                fetchTickets();
+                fetchTickets({ silent: true });
             }
-        }, 5000);
+        }, 15000);
 
         function syncWhenVisible() {
             if (document.visibilityState === "visible") {
-                fetchTickets();
+                fetchTickets({ silent: true });
             }
         }
 
         document.addEventListener("visibilitychange", syncWhenVisible);
-        window.addEventListener("focus", fetchTickets);
+        window.addEventListener("focus", syncWhenVisible);
 
         return () => {
             supabase.removeChannel(channel);
             window.clearInterval(syncInterval);
             document.removeEventListener("visibilitychange", syncWhenVisible);
-            window.removeEventListener("focus", fetchTickets);
+            window.removeEventListener("focus", syncWhenVisible);
         };
     }, [fetchTickets]);
 

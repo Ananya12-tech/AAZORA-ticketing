@@ -344,7 +344,7 @@ function BoardCard({ ticket, users, onOpen, onDragStart }) {
 
 export default function App() {
   const { users } = useUsers();
-  const { tickets, loading, createTicket, updateStatus, updateField, addComment, deleteComment, archiveTicket, restoreTicket, uploadAttachment } = useTickets();
+  const { tickets, loading, createTicket, updateStatus, updateField, addComment, deleteComment, deleteTicket, archiveTicket, restoreTicket, uploadAttachment } = useTickets();
 
   const [user, setUser] = useState(null);
   const [selected, setSelected] = useState(null);
@@ -477,6 +477,13 @@ export default function App() {
 
   async function handleRestoreTicket(id) {
     await restoreTicket(id, user);
+  }
+
+  async function handleDeleteTicket(id) {
+    if (!user.isAdmin) return;
+    if (!window.confirm("Permanently delete this ticket and its history? This cannot be undone.")) return;
+    await deleteTicket(id);
+    setSelected(null);
   }
 
   async function handleUploadAttachment() {
@@ -750,8 +757,13 @@ export default function App() {
                   <select value={fTag} onChange={e => setFTag(e.target.value)} style={{ ...iSel, fontSize: 12 }}><option>All</option>{TICKET_TAGS.map(t => <option key={t}>{t}</option>)}</select>
                   <select value={sortBy} onChange={e => setSortBy(e.target.value)} style={{ ...iSel, fontSize: 12 }}><option>Newest</option><option>Due date</option><option>Priority</option></select>
                   <button onClick={() => setFMine(s => !s)} style={{ ...(fMine ? D.btnP : D.btnG), fontSize: 11, padding: "6px 8px" }}>Mine only</button>
-                  <button onClick={() => setShowArchived(s => !s)} style={{ ...(showArchived ? D.btnP : D.btnG), fontSize: 11, padding: "6px 8px" }}>{showArchived ? "Archived" : "Active"}</button>
+                  <button onClick={() => setShowArchived(s => !s)} style={{ ...(showArchived ? D.btnP : D.btnG), fontSize: 11, padding: "6px 8px" }}>{showArchived ? "Viewing archived" : "View archived"}</button>
                 </div>
+                {showArchived && (
+                  <div style={{ fontSize: 11, color: "#8B95A7", marginTop: 6 }}>
+                    Archived tickets are hidden from the board, metrics, workload, and reminders.
+                  </div>
+                )}
               </div>
               <div style={{ overflowY: "auto", maxHeight: "65vh" }}>
                 {loading ? <div style={{ padding: "2rem", textAlign: "center", color: "#6B7280", fontSize: 13 }}>Loading...</div> : filtered.length === 0 ? <div style={{ padding: "2rem", textAlign: "center", fontSize: 13, color: "#6B7280" }}>No tickets found</div> : filtered.map(t => {
@@ -775,7 +787,15 @@ export default function App() {
                     <div style={{ width: 40, height: 40, borderRadius: 8, background: TYPE_META[selected.type]?.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, fontWeight: 700, flexShrink: 0 }}>{TYPE_META[selected.type]?.icon}</div>
                     <div><div style={{ fontWeight: 500, fontSize: 16, lineHeight: 1.3, marginBottom: 8 }}>{selected.title}</div><div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}><Pill label={selected.type} meta={{ bg: TYPE_META[selected.type]?.bg, text: TYPE_META[selected.type]?.text }} /><Pill label={selected.priority} meta={PRIORITY_META[selected.priority]} /><Pill label={selected.status} meta={STATUS_META[selected.status]} />{dueBadge(selected.dueDate) && <Pill label={dueBadge(selected.dueDate).label} meta={dueBadge(selected.dueDate)} />}{(selected.tags || []).map(tag => <Pill key={tag} label={tag} meta={{ bg: "#202637", text: "#A8B3CF" }} />)}{selected.archived && <Pill label="Archived" meta={{ bg: "#2A2D38", text: "#9CA3AF" }} />}</div></div>
                   </div>
-                  <div style={{ display: "flex", gap: 8, alignItems: "center" }}>{user.isAdmin && (selected.archived ? <button onClick={() => handleRestoreTicket(selected.id)} style={{ ...D.btnG, fontSize: 11, padding: "5px 10px" }}>Restore</button> : <button onClick={() => handleArchiveTicket(selected.id)} style={{ ...D.btnDanger, fontSize: 11, padding: "5px 10px" }}>Archive</button>)}<button onClick={() => setSelected(null)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, color: "#6B7280" }}>x</button></div>
+                  <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", justifyContent: "flex-end" }}>
+                    {user.isAdmin && (selected.archived
+                      ? <button onClick={() => handleRestoreTicket(selected.id)} style={{ ...D.btnG, fontSize: 11, padding: "5px 10px" }}>Restore</button>
+                      : <button onClick={() => handleArchiveTicket(selected.id)} style={{ ...D.btnG, fontSize: 11, padding: "5px 10px" }}>Archive</button>)}
+                    {user.isAdmin && (
+                      <button onClick={() => handleDeleteTicket(selected.id)} style={{ ...D.btnDanger, fontSize: 11, padding: "5px 10px" }}>Delete</button>
+                    )}
+                    <button onClick={() => setSelected(null)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, color: "#6B7280" }}>x</button>
+                  </div>
                 </div>
 
                 <div style={{ background: "#151A25", border: "1px solid #2B3244", borderRadius: 8, padding: "12px 14px", marginBottom: 14 }}>
@@ -843,6 +863,9 @@ export default function App() {
 
                 <div style={{ marginBottom: 16 }}>
                   <div style={D.sHead}>Attachments ({selected.attachments?.length || 0})</div>
+                  <div style={{ fontSize: 11, color: "#8B95A7", marginBottom: 8 }}>
+                    Stored in Supabase Storage bucket: ticket-attachments
+                  </div>
                   <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 10 }}>
                     <input
                       type="file"
