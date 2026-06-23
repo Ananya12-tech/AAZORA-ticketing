@@ -151,7 +151,7 @@ function Login({ onLogin }) {
 
   return (
     <div style={{ ...D.root, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
-      <div style={{ ...D.card, width: 400, padding: "2.5rem 2rem", borderTop: "3px solid #14B8A6" }}>
+      <div style={{ ...D.card, width: "min(400px, calc(100vw - 24px))", maxWidth: "100%", padding: "2.5rem 2rem", borderTop: "3px solid #14B8A6" }}>
         <div style={{ marginBottom: "2rem" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
             <div style={{ width: 36, height: 36, borderRadius: 8, background: "linear-gradient(135deg, #14B8A6 0%, #6366F1 100%)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, color: "#FFFFFF" }}>A</div>
@@ -601,7 +601,7 @@ export default function App() {
   }
 
   return (
-    <div style={D.root}>
+    <div className="aazora-root" style={D.root}>
       {toast && (
         <div
           style={{
@@ -609,7 +609,8 @@ export default function App() {
             right: 18,
             top: 74,
             zIndex: 2000,
-            width: 320,
+            width: "min(320px, calc(100vw - 24px))",
+            maxWidth: "100%",
             background: "linear-gradient(180deg, #1A2030 0%, #151A25 100%)",
             border: "1px solid #14B8A6",
             borderRadius: 8,
@@ -632,7 +633,7 @@ export default function App() {
         </div>
       )}
 
-      <div style={{ background: "rgba(10, 13, 20, 0.94)", borderBottom: "1px solid #252B3A", padding: "0.65rem 1.5rem", minHeight: 62, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, position: "sticky", top: 0, zIndex: 100, flexWrap: "wrap", backdropFilter: "blur(14px)", boxShadow: "0 14px 40px rgba(0,0,0,0.26)" }}>
+      <div className="aazora-header" style={{ background: "rgba(10, 13, 20, 0.94)", borderBottom: "1px solid #252B3A", padding: "0.65rem 1.5rem", minHeight: 62, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, position: "sticky", top: 0, zIndex: 100, flexWrap: "wrap", backdropFilter: "blur(14px)", boxShadow: "0 14px 40px rgba(0,0,0,0.26)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <span style={{ width: 32, height: 32, borderRadius: 8, background: "linear-gradient(135deg, #14B8A6 0%, #6366F1 100%)", display: "flex", alignItems: "center", justifyContent: "center", color: "#FFFFFF", fontWeight: 900, boxShadow: "0 8px 22px rgba(20,184,166,0.18)" }}>A</span>
           <span style={{ fontWeight: 900, fontSize: 17, color: "#F8FAFC" }}>AAZORA</span>
@@ -660,7 +661,7 @@ export default function App() {
         </div>
       </div>
 
-      <div style={{ padding: "1.5rem", maxWidth: 1200, margin: "0 auto" }}>
+      <div className="aazora-content" style={{ padding: "1.5rem", maxWidth: 1200, margin: "0 auto" }}>
         {showCPass && <ChangePass user={user} onClose={() => setShowCPass(false)} onSave={pw => { setUser(u => ({ ...u, password: pw })); setShowCPass(false); }} />}
 
         {showForm && (
@@ -669,7 +670,7 @@ export default function App() {
               <div style={{ fontWeight: 500, fontSize: 15 }}>New ticket</div>
               <button onClick={() => setShowForm(false)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, color: "#6B7280" }}>x</button>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12, marginBottom: 12 }}>
+          <div className="aazora-form-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12, marginBottom: 12 }}>
               <div style={{ gridColumn: "1/-1" }}><label style={D.label}>Title</label><input style={iDark} placeholder="What needs to be done?" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} onKeyDown={e => e.key === "Enter" && handleCreate()} /></div>
               <div style={{ gridColumn: "1/-1" }}><label style={D.label}>Description</label><textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} placeholder="Describe the task..." rows={3} style={{ ...iDark, resize: "vertical" }} /></div>
               <div><label style={D.label}>Type</label><select style={iSel} value={form.type} onChange={e => setForm(f => ({ ...f, type: e.target.value }))}>{TICKET_TYPES.map(t => <option key={t}>{t}</option>)}</select></div>
@@ -711,13 +712,13 @@ export default function App() {
           </div>
         )}
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", gap: 10, marginBottom: "1.5rem" }}>
+        <div className="aazora-stats" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", gap: 10, marginBottom: "1.5rem" }}>
           {[
             ["Total", stats.total, "#E8EAF0"], ["Open", stats.open, "#7AB8FF"], ["In Progress", stats.inProgress, "#F6C177"], ["Blocked", stats.blocked, "#FF5D73"], ["Closed", stats.closed, "#6EE7B7"], ["Overdue", stats.overdue, "#FF5D73"], ["My open", stats.mine, "#B7A7FF"], ["Archived", stats.archived, "#9CA3AF"],
           ].map(([label, val, color]) => <div key={label} style={{ ...D.card, padding: "1rem", borderTop: `3px solid ${color}` }}><div style={{ fontSize: 10, color: "#8B95A7", textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 7, fontWeight: 800 }}>{label}</div><div style={{ fontSize: 28, fontWeight: 800, color }}>{val}</div></div>)}
         </div>
 
-        <div style={{ ...D.card, padding: "1rem", marginBottom: "1.5rem" }}>
+        <div className="aazora-workload" style={{ ...D.card, padding: "1rem", marginBottom: "1.5rem" }}>
           <div style={D.sHead}>Assignee workload</div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 8 }}>
             {workload.map(member => (
@@ -733,7 +734,7 @@ export default function App() {
         </div>
 
         {tab === "board" && (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12 }}>
+          <div className="aazora-board" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12 }}>
             {STATUSES.map(status => {
               const col = activeTickets.filter(t => t.status === status);
               const isOver = dragOver === status;
@@ -751,11 +752,11 @@ export default function App() {
         )}
 
         {tab === "tickets" && (
-          <div style={{ display: "grid", gridTemplateColumns: selected ? "300px 1fr" : "1fr", gap: 14, alignItems: "start" }}>
+          <div className="aazora-tickets-grid" style={{ display: "grid", gridTemplateColumns: selected ? "300px 1fr" : "1fr", gap: 14, alignItems: "start" }}>
             <div style={D.card}>
               <div style={{ padding: "12px 14px", borderBottom: "0.5px solid #2A2D38" }}>
                 <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search tickets..." style={{ ...iDark, marginBottom: 8 }} />
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 6 }}>
+                <div className="aazora-filter-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 6 }}>
                   <select value={fStatus} onChange={e => setFStatus(e.target.value)} style={{ ...iSel, fontSize: 12 }}><option>All</option>{STATUSES.map(s => <option key={s}>{s}</option>)}</select>
                   <select value={fPriority} onChange={e => setFPriority(e.target.value)} style={{ ...iSel, fontSize: 12 }}><option>All</option>{PRIORITIES.map(p => <option key={p}>{p}</option>)}</select>
                   <select value={fTeam} onChange={e => setFTeam(e.target.value)} style={{ ...iSel, fontSize: 12 }}><option>All</option>{TEAMS.map(t => <option key={t}>{t}</option>)}</select>
@@ -786,7 +787,7 @@ export default function App() {
             </div>
 
             {selected && (
-              <div style={{ ...D.card, padding: "1.5rem", overflowY: "auto", maxHeight: "85vh", borderTop: "3px solid #14B8A6" }}>
+              <div className="aazora-detail" style={{ ...D.card, padding: "1.5rem", overflowY: "auto", maxHeight: "85vh", borderTop: "3px solid #14B8A6" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
                   <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
                     <div style={{ width: 40, height: 40, borderRadius: 8, background: TYPE_META[selected.type]?.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, fontWeight: 700, flexShrink: 0 }}>{TYPE_META[selected.type]?.icon}</div>
