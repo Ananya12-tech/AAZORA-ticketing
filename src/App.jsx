@@ -368,6 +368,7 @@ export default function App() {
   const [comment, setComment] = useState("");
   const [attachmentFile, setAttachmentFile] = useState(null);
   const [saving, setSaving] = useState(false);
+  const [createError, setCreateError] = useState("");
   const [toast, setToast] = useState(null);
   const [form, setForm] = useState({ title: "", type: TICKET_TYPES[0], priority: "Medium", assignedTeam: TEAMS[0], assignedUser: null, description: "", dueDate: "", tags: [] });
 
@@ -414,6 +415,7 @@ export default function App() {
 
   async function handleCreate() {
     if (!form.title.trim()) return;
+    setCreateError("");
     setSaving(true);
     const { error } = await createTicket({ ...form, assignedTo: form.assignedUser?.email || null }, user);
     setSaving(false);
@@ -423,6 +425,8 @@ export default function App() {
       }
       setForm({ title: "", type: TICKET_TYPES[0], priority: "Medium", assignedTeam: TEAMS[0], assignedUser: null, description: "", dueDate: "", tags: [] });
       setShowForm(false);
+    } else {
+      setCreateError(error?.message || "Ticket creation failed. Please check Supabase columns and RLS policies.");
     }
   }
 
@@ -703,6 +707,7 @@ export default function App() {
               </div>
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}><button style={D.btnG} onClick={() => setShowForm(false)}>Cancel</button><button style={{ ...D.btnP, opacity: (!form.title.trim() || saving) ? 0.5 : 1 }} onClick={handleCreate} disabled={!form.title.trim() || saving}>{saving ? "Creating..." : "Create ticket"}</button></div>
+            {createError && <div style={{ marginTop: 10, fontSize: 12, color: "#FB7185", background: "#20131A", border: "1px solid #7F1D1D", padding: "8px 10px", borderRadius: 8 }}>{createError}</div>}
           </div>
         )}
 

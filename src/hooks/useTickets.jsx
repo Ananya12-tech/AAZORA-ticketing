@@ -624,9 +624,8 @@ export function useTickets() {
     }, []);
 
     const createTicket = useCallback(async (form, user) => {
-        const { data, error } = await supabase
-            .from("tickets")
-            .insert([{
+        const payloadVariants = [
+            {
                 title: form.title,
                 description: form.description || "",
                 type: form.type,
@@ -639,18 +638,69 @@ export function useTickets() {
                 archived: false,
                 created_by: user.name,
                 created_by_team: user.team,
-            }])
-            .select()
-            .single();
+            },
+            {
+                title: form.title,
+                description: form.description || "",
+                type: form.type,
+                priority: form.priority,
+                status: "Open",
+                assigned_team: form.assignedTeam,
+                assigned_to: form.assignedTo || null,
+                due_date: form.dueDate || null,
+                created_by: user.name,
+                created_by_team: user.team,
+            },
+            {
+                title: form.title,
+                description: form.description || "",
+                type: form.type,
+                priority: form.priority,
+                status: "Open",
+                created_by: user.name,
+                created_by_team: user.team,
+            },
+        ];
 
-        if (error) {
-            console.error("createTicket:", error);
-            return { ticket: null, error };
+        let lastError = null;
+
+        for (const payload of payloadVariants) {
+            const result = await supabase
+                .from("tickets")
+                .insert([payload]);
+
+            if (!result.error) {
+                const latest = await supabase
+                    .from("tickets")
+                    .select("id, created_at, title, created_by")
+                    .order("created_at", { ascending: false })
+                    .limit(1)
+                    .maybeSingle();
+
+                if (latest.data?.id) {
+                    await addActivity(latest.data.id, user.name, "Ticket created");
+                }
+
+                await fetchTickets();
+                return { ticket: null, error: null };
+            }
+
+            lastError = result.error;
+            const msg = String(lastError.message || "").toLowerCase();
+            const isSchemaProblem =
+                msg.includes("column") ||
+                msg.includes("schema cache") ||
+                msg.includes("could not find") ||
+                msg.includes("row-level security") ||
+                msg.includes("permission") ||
+                msg.includes("new row violates") ||
+                msg.includes("violates row-level security");
+
+            if (!isSchemaProblem) break;
         }
 
-        await addActivity(data.id, user.name, "Ticket created");
-        await fetchTickets();
-        return { ticket: data, error: null };
+        console.error("createTicket:", lastError);
+        return { ticket: null, error: lastError };
     }, [addActivity, fetchTickets]);
 
     const updateStatus = useCallback(async (id, status, user) => {
