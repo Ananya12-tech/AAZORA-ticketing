@@ -90,10 +90,11 @@ video {
     width: 100%;
     justify-content: space-between;
     gap: 6px;
+    align-items: stretch;
   }
 
   .aazora-header button {
-    flex: 1 1 auto;
+    flex: 1 1 48%;
     min-width: 0;
   }
 
@@ -189,10 +190,13 @@ video {
 
   .aazora-header > div:last-child {
     width: 100%;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .aazora-header button {
-    flex: 1 1 0;
+    flex: 1 1 auto;
+    width: 100%;
   }
 
   .aazora-board {
