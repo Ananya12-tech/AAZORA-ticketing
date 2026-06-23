@@ -18,6 +18,8 @@ export const DEFAULT_USERS = [
     { email: "roshini.srinivasarajagopalan@gmail.com", name: "Roshini", team: "Development", avatar: "RO", isAdmin: false, password: DEFAULT_PASSWORD },
     { email: "gopikameena881@gmail.com", name: "Gopika", team: "QA", avatar: "GO", isAdmin: false, password: DEFAULT_PASSWORD },
     { email: "praveenbruce04@gmail.com", name: "Praveen", team: "QA", avatar: "PR", isAdmin: false, password: DEFAULT_PASSWORD },
+    { email: "m.thivaghar@gmail.com", name: "Thivaghar", team: "Development", avatar: "TH", isAdmin: false, password: DEFAULT_PASSWORD },
+    { email: "hp.lakshana@gmail.com", name: "Lakshana", team: "QA", avatar: "LA", isAdmin: false, password: DEFAULT_PASSWORD },
 ];
 
 const USERS_STORAGE_KEY = "aazora_users_v1";
@@ -28,7 +30,15 @@ function loadUsers() {
     if (typeof localStorage === "undefined") return DEFAULT_USERS;
     try {
         const saved = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || "null");
-        return Array.isArray(saved) && saved.length ? saved : DEFAULT_USERS;
+        if (!Array.isArray(saved) || !saved.length) return DEFAULT_USERS;
+
+        const merged = [...saved];
+        DEFAULT_USERS.forEach(defaultUser => {
+            if (!merged.some(user => user.email === defaultUser.email)) {
+                merged.push(defaultUser);
+            }
+        });
+        return merged;
     } catch {
         return DEFAULT_USERS;
     }
